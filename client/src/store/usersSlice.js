@@ -4,10 +4,10 @@ export const getAllUsers = createAsyncThunk(
   'users/getAllUsers',
   async (params = { res: 5 }, thunkAPI) => {
     try {
-      const { results } = await fetch(
-        'https://randomuser.me/api/?results=' + params.res
+      const { data } = await fetch(
+        'http://localhost:3000/api/users?limit=3&offset=20'
       ).then((res) => res.json());
-      return results; 
+      return data; 
     } catch (error) {
       return thunkAPI.rejectWithValue(error); 
     }

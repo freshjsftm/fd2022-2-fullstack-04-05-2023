@@ -17,7 +17,7 @@ const UsersList = (props) => {
           <h2>users list</h2>
           <ol>
             {users.map((user) => (
-              <li key={user.login.uuid}>{JSON.stringify(user)}</li>
+              <li key={user.id}>{JSON.stringify(user)}</li>
             ))}
           </ol>
         </section>
