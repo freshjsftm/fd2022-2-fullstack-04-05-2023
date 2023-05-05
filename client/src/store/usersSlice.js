@@ -1,18 +1,16 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import * as httpClient from '../api';
+import { pendingReducer, rejectedReducer, decorateAsyncThunk } from './helpers';
 
-export const getAllUsers = createAsyncThunk(
-  'users/getAllUsers',
-  async (params = { res: 5 }, thunkAPI) => {
-    try {
-      const { data } = await fetch(
-        'http://localhost:3000/api/users?limit=3&offset=20'
-      ).then((res) => res.json());
-      return data; 
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error); 
-    }
-  }
-);
+export const createUser = decorateAsyncThunk({
+  type:'users/createUser',
+  thunk:  httpClient.postUser
+})
+
+export const getAllUsers = decorateAsyncThunk({
+  type:'users/getAllUsers',
+  thunk:  httpClient.getUsers
+})
 
 const usersSlice = createSlice({
   name: 'users',
@@ -21,30 +19,30 @@ const usersSlice = createSlice({
     error: null,
     users: [],
   },
-  reducers: {
-    loadUsers(state, action) {
-      state.users = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllUsers.pending, (state, action) => {
-      state.isFetching = true;
-      state.error = null;
-    });
+    builder.addCase(getAllUsers.pending, pendingReducer);
+    builder.addCase(createUser.pending, pendingReducer);
+
+    builder.addCase(getAllUsers.rejected, rejectedReducer);
+    builder.addCase(createUser.rejected, rejectedReducer);
+
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.isFetching = false;
-      state.users = action.payload;
       state.error = null;
+      state.users = action.payload;
     });
-    builder.addCase(getAllUsers.rejected, (state, action)=>{
+    builder.addCase(createUser.fulfilled, (state, action) => {
       state.isFetching = false;
-      state.error = action.payload;
-    })
+      state.error = null;
+      state.users.unshift(action.payload);
+    });
+    
   },
 });
 
 const {
   reducer,
-  actions: { loadUsers },
+  // actions: { loadUsers },
 } = usersSlice;
 export default reducer;

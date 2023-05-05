@@ -6,7 +6,7 @@ const UsersList = (props) => {
   const { isFetching, error, users } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllUsers({ res: 2 }));
+    dispatch(getAllUsers({limit:5, offset:0}));
   }, [dispatch]);
   return (
     <>
@@ -17,7 +17,7 @@ const UsersList = (props) => {
           <h2>users list</h2>
           <ol>
             {users.map((user) => (
-              <li key={user.id}>{JSON.stringify(user)}</li>
+              <li key={user.id}>{user.email}</li>
             ))}
           </ol>
         </section>
