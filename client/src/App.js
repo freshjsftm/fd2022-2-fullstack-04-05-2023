@@ -1,10 +1,5 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-// import HomePage from './pages/HomePage';
-// import UsersPage from './pages/UsersPage';
-// import LogUpPage from './pages/LogUpPage';
-// import GroupsPage from './pages/GroupsPage';
-// import UserProfile from './components/UserProfile';
 const HomePage = lazy(() => import('./pages/HomePage'));
 const UsersPage = lazy(() => import('./pages/UsersPage'));
 const LogUpPage = lazy(() => import('./pages/LogUpPage'));

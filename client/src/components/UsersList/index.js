@@ -19,8 +19,11 @@ const UsersList = (props) => {
           <ol>
             {users.map((user) => (
               <li key={user.id}>
-                {user.email} 
-                <Link to={`/users/${user.id}`}>show profile</Link>
+                <article>
+                  <h3>{user.email}</h3>
+                  <p><Link to={`/users/${user.id}`}>show profile</Link></p>
+                  <button>delete user</button>
+                </article>
               </li>
             ))}
           </ol>
