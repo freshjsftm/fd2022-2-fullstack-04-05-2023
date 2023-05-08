@@ -12,16 +12,16 @@ const GroupForm = () => {
     //formikBag.resetForm();
   };
   return (
-    <Formik initialValues={{ title: '', image: '' }} onSubmit={onSubmit}>
+    <Formik initialValues={{ title: '', imageGroup: '' }} onSubmit={onSubmit}>
       {(formikProps) => {
         return (
           <Form encType="multipart/form-data">
             <Field name="title" placeholder="title" />
             <input
-              name="image"
+              name="imageGroup"
               type="file"
-              onChange={(event) =>
-                formikProps.setFieldValue('image', event.target.files[0])
+              onChange={({target}) =>
+                formikProps.setFieldValue('imageGroup', target.files[0])
               }
             />
             <input type="submit" value="add new group" />

@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import UsersPage from './pages/UsersPage';
 import LogUpPage from './pages/LogUpPage';
 import GroupsPage from './pages/GroupsPage';
+import UserProfile from './components/UserProfile';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/users" element={<UsersPage />} />
         <Route path="/group-create" element={<GroupsPage />} />
         <Route path="/registration" element={<LogUpPage />} />
+        <Route path="/users/:idUser" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>
   );

@@ -20,15 +20,19 @@ export const pendingReducer = (state, action) => {
 };
 
 export const rejectedReducer = (state, action) => {
-  const {
-    payload: {
-      response: {
-        data: {
-          error: [first],
+  state.isFetching = false;
+  if (action.payload.response) {
+    const {
+      payload: {
+        response: {
+          data: {
+            error: [first],
+          },
         },
       },
-    },
-  } = action;
-  state.isFetching = false;
-  state.error = first.message;
+    } = action;
+    state.error = first.message;
+    return;
+  }
+  state.error = action.payload;
 };
