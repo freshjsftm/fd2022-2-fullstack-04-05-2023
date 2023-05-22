@@ -2,20 +2,21 @@
 const { Model } = require('sequelize');
 const { isAfter } = require('date-fns');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model { //User -> Users
+  class User extends Model {
+    //User -> Users
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      User.hasMany(models.Task, { 
-        foreignKey: 'userId' //'user_id'
-      })
+    static associate (models) {
+      User.hasMany(models.Task, {
+        foreignKey: 'userId', //'user_id'
+      });
       User.belongsToMany(models.Group, {
         through: 'users_to_groups',
-        foreignKey: 'userId'
-      })
+        foreignKey: 'userId',
+      });
     }
   }
   User.init(
@@ -54,16 +55,16 @@ module.exports = (sequelize, DataTypes) => {
           notNull: true,
           notEmpty: true,
         },
-        set(value) {
+        set (value) {
           this.setDataValue('password', 'hash');
-        }
+        },
       },
       birthday: {
         allowNull: false,
         type: DataTypes.DATEONLY,
         validate: {
           isDate: true,
-          isValidDate(value) {
+          isValidDate (value) {
             if (isAfter(new Date(value), new Date())) {
               throw new Error('check birthday');
             }

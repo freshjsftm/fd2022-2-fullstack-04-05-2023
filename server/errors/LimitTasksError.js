@@ -1,7 +1,7 @@
-const ApplicationError = require("./ApplicationError");
+const ApplicationError = require('./ApplicationError');
 
 class LimitTasksError extends ApplicationError {
-  constructor(message) {
+  constructor (message) {
     super(403, message || 'Limit tasks exceeded!!!');
   }
 }

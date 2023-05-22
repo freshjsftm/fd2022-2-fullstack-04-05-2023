@@ -2,14 +2,17 @@ const _ = require('lodash');
 const createError = require('http-errors');
 const { Group, User } = require('../models');
 
-const pickBody = (body) =>
+const pickBody = body =>
   _.pick(body, ['title', 'imagePath', 'description', 'isPrivate']);
 
 module.exports.createGroup = async (req, res, next) => {
   try {
-    const { body, file:{filename} } = req;
+    const {
+      body,
+      file: { filename },
+    } = req;
     const values = pickBody(body);
-    const newGroup = await Group.create({...values, imagePath: filename});
+    const newGroup = await Group.create({ ...values, imagePath: filename });
 
     //find user
     const user = await User.findByPk(body.userId, {
@@ -24,7 +27,7 @@ module.exports.createGroup = async (req, res, next) => {
     //await user.addGroup(newGroup);
     await newGroup.addUser(user);
 
-    res.status(201).send({data: newGroup});
+    res.status(201).send({ data: newGroup });
   } catch (error) {
     next(error);
   }
@@ -32,18 +35,24 @@ module.exports.createGroup = async (req, res, next) => {
 
 module.exports.addImage = async (req, res, next) => {
   try {
-    const {file:{filename}, params:{idGroup}} = req;
-    const [,[groupUpdated]] = await Group.update({
-      imagePath: filename
-    },{
-      where: { id: idGroup},
-      returning: true
-    })
-    res.status(200).send({data: groupUpdated})
+    const {
+      file: { filename },
+      params: { idGroup },
+    } = req;
+    const [, [groupUpdated]] = await Group.update(
+      {
+        imagePath: filename,
+      },
+      {
+        where: { id: idGroup },
+        returning: true,
+      }
+    );
+    res.status(200).send({ data: groupUpdated });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 module.exports.getUserGroups = async (req, res, next) => {
   try {

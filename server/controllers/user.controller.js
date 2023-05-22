@@ -3,7 +3,15 @@ const _ = require('lodash');
 const { Op } = require('sequelize');
 const { User } = require('../models');
 
-const pickBody = (body) => _.pick(body, ['firstName', 'lastName', 'email', 'password', 'birthday', 'isMale']);
+const pickBody = body =>
+  _.pick(body, [
+    'firstName',
+    'lastName',
+    'email',
+    'password',
+    'birthday',
+    'isMale',
+  ]);
 
 module.exports.createUser = async (req, res, next) => {
   try {

@@ -1,6 +1,7 @@
 .*
 !.gitignore
 !.sequelizerc
+!.prettierrc*
 /node_modules/
 /public/
 /sequelize*.json
